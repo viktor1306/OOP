@@ -1,0 +1,15 @@
+using System;using System.Text.RegularExpressions;
+class Program
+{    static void Main(string[] args)
+    {        Console.WriteLine("Введіть email-адресу:");
+        string email = Console.ReadLine();
+        if (IsValidEmail(email))        {
+            Console.WriteLine("Email-адреса валідна.");        }
+        else        {
+            Console.WriteLine("Недійсна email-адреса.");        }
+    }
+    static bool IsValidEmail(string email)    {
+        // Регулярний вираз для перевірки валідності email-адреси        string pattern = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
+        // Перевірка, чи відповідає email-адреса заданому регулярному виразу
+        return Regex.IsMatch(email, pattern);    }
+}

@@ -1,0 +1,45 @@
+using System;
+public class Program{
+    public static void Main(string[] args)    {
+        // Приклад використання черги        Queue myQueue = new Queue(5); // створення черги з початковим розміром 5
+        myQueue.Enqueue("First");
+        myQueue.Enqueue("Second");        myQueue.Enqueue("Third");
+        Console.WriteLine("Dequeue: " + myQueue.Dequeue()); // очікується вивід "Dequeue: First"
+        Console.WriteLine("Dequeue: " + myQueue.Dequeue()); // очікується вивід "Dequeue: Second"
+        myQueue.Enqueue("Fourth");        myQueue.Enqueue("Fifth");
+        myQueue.Enqueue("Sixth"); // при додаванні шостого елемента розмір черги буде автоматично збільшено
+        while (!myQueue.isEmpty())        {
+            Console.WriteLine("Dequeue: " + myQueue.Dequeue()); // очікується вивід "Dequeue: Third", "Dequeue: Fourth", "Dequeue: Fifth", "Dequeue: Sixth"        }
+    }}
+public class Queue
+{    private string[] elements;
+    private int front; // індекс першого елемента в черзі    private int rear; // індекс останнього елемента в черзі
+    private int capacity; // поточна ємність черги
+    public Queue(int initialCapacity)    {
+        elements = new string[initialCapacity];        front = 0;
+        rear = -1;        capacity = 0;
+    }
+    public void Enqueue(string item)    {
+        if (capacity == elements.Length)        {
+            // Якщо масив заповнений, збільшуємо його розмір            Resize();
+        }
+        rear = (rear + 1) % elements.Length; // обчислюємо індекс останнього елемента з урахуванням кільцевої структури масиву        elements[rear] = item;
+        capacity++;    }
+    public string Dequeue()
+    {        if (isEmpty())
+        {            throw new InvalidOperationException("Queue is empty");
+        }
+        string dequeuedItem = elements[front];        elements[front] = null; // звільняємо посилання на видалений елемент
+        front = (front + 1) % elements.Length; // обчислюємо індекс першого елемента з урахуванням кільцевої структури масиву        capacity--;
+        return dequeuedItem;    }
+    public bool isEmpty()
+    {        return capacity == 0;
+    }
+    private void Resize()    {
+        int newCapacity = elements.Length * 2; // збільшуємо розмір масиву вдвічі        string[] newArray = new string[newCapacity];
+        // копіюємо елементи черги в новий масив
+        for (int i = 0; i < capacity; i++)        {
+            newArray[i] = elements[(front + i) % elements.Length];        }
+        elements = newArray;
+        front = 0;        rear = capacity - 1;
+    }}

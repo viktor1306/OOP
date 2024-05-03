@@ -1,0 +1,23 @@
+using System;using System.Collections.Generic;
+using System.Linq;
+class Program{
+    static void Main(string[] args)    {
+        List<(string name, TimeSpan time)> runners = new List<(string name, TimeSpan time)>();
+        Console.WriteLine("Введіть ім'я спортсмена та його час забігу (формат: 'Ім'я Х:ХХ', для завершення введіть 'end'):");
+        string input;        while ((input = Console.ReadLine()) != "end")
+        {            string[] parts = input.Split(' ');
+            if (parts.Length == 2 && TimeSpan.TryParse(parts[1], out TimeSpan time))            {
+                runners.Add((parts[0], time));            }
+            else            {
+                Console.WriteLine("Некоректний формат введення. Спробуйте ще раз.");            }
+        }
+        // Виведення перших трьох місць        Console.WriteLine("Перші три місця:");
+        var topThree = runners.OrderBy(r => r.time).Take(3);        foreach (var runner in topThree.Select((value, index) => new { value, index }))
+        {            Console.WriteLine($"Місце #{runner.index + 1}: {runner.value.name} - {runner.value.time}");
+        }
+        // Підрахунок статистики        var bestTime = runners.Min(r => r.time);
+        var worstTime = runners.Max(r => r.time);        var averageTime = TimeSpan.FromTicks((long)runners.Average(r => r.time.Ticks));
+        // Виведення статистики
+        Console.WriteLine($"Найкращий час: {bestTime}");        Console.WriteLine($"Найгірший час: {worstTime}");
+        Console.WriteLine($"Середній час: {averageTime}");    }
+}

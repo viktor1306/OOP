@@ -1,0 +1,30 @@
+using System;
+// Абстрактний базовий клас Shapeabstract class Shape
+{    // Абстрактний метод для отримання периметру
+    public abstract double GetPerimeter();}
+// Похідний клас Circle
+class Circle : Shape{
+    public double Radius { get; set; }
+    public Circle(double radius)    {
+        Radius = radius;    }
+    // Перевизначення методу для обчислення периметру кола
+    public override double GetPerimeter()    {
+        return 2 * Math.PI * Radius;    }
+}
+// Похідний клас Rectangle
+class Rectangle : Shape{
+    public double Width { get; set; }    public double Height { get; set; }
+    public Rectangle(double width, double height)
+    {        Width = width;
+        Height = height;    }
+    // Перевизначення методу для обчислення периметру прямокутника
+    public override double GetPerimeter()    {
+        return 2 * (Width + Height);    }
+}
+class Program{
+    static void Main(string[] args)    {
+        // Створення об'єктів кола та прямокутника        Circle circle = new Circle(4);
+        Rectangle rectangle = new Rectangle(1, 3);
+        // Виведення периметрів фігур        Console.WriteLine("Периметр кола: " + circle.GetPerimeter()); 
+        Console.WriteLine("Периметр прямокутника: " + rectangle.GetPerimeter()); 
+    }}
